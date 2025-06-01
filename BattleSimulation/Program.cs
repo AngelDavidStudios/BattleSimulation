@@ -5,7 +5,7 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        var battleService = new BattleService("http://localhost:3000/");
+        var battleService = new BattleService("http://pokecore-backend-alb-930486308.us-east-1.elb.amazonaws.com/");
 
         while (true)
         {
