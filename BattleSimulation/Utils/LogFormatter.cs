@@ -4,18 +4,86 @@ public class LogFormatter
 {
     public static void MostrarLog(List<string> log)
         {
+            Console.WriteLine("=== ⚔️ BATALLA POKÉMON INICIADA ===\n");
+
             foreach (var linea in log)
             {
                 var eventos = linea.Split('|', StringSplitOptions.RemoveEmptyEntries);
 
-                // Como ya dividiste por '|', cada evento es una palabra suelta
-                // Por eso debes usar un bucle con índice
                 for (int i = 0; i < eventos.Length; i++)
                 {
                     var comando = eventos[i];
 
                     switch (comando)
                     {
+                        case "t:":
+                            // Timestamp ignorado
+                            i += 1;
+                            break;
+
+                        case "gametype":
+                            if (i + 1 < eventos.Length)
+                            {
+                                Console.WriteLine($"🔧 Tipo de juego: {eventos[i + 1]}");
+                                i += 1;
+                            }
+                            break;
+
+                        case "player":
+                            if (i + 2 < eventos.Length)
+                            {
+                                Console.WriteLine($"🎮 {eventos[i + 1]} → {eventos[i + 2]}");
+                                i += 2;
+                            }
+                            break;
+
+                        case "teamsize":
+                            if (i + 2 < eventos.Length)
+                            {
+                                Console.WriteLine($"👥 Tamaño del equipo {eventos[i + 1]}: {eventos[i + 2]} Pokémon");
+                                i += 2;
+                            }
+                            break;
+
+                        case "gen":
+                            if (i + 1 < eventos.Length)
+                            {
+                                Console.WriteLine($"🧬 Generación: {eventos[i + 1]}");
+                                i += 1;
+                            }
+                            break;
+
+                        case "tier":
+                            if (i + 1 < eventos.Length)
+                            {
+                                Console.WriteLine($"🏷️ Formato: {eventos[i + 1]}");
+                                i += 1;
+                            }
+                            break;
+
+                        case "poke":
+                            if (i + 2 < eventos.Length)
+                            {
+                                Console.WriteLine($"🔸 {eventos[i + 1]} tiene a {eventos[i + 2]}");
+                                i += 2;
+                            }
+                            break;
+
+                        case "teampreview":
+                            Console.WriteLine("\n✅ Equipos listos. ¡La batalla va a comenzar!\n");
+                            break;
+
+                        // Turnos y eventos ya estaban antes:
+                        case "turn":
+                            if (i + 1 < eventos.Length)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Green;
+                                Console.WriteLine($"\n🔄 Turno {eventos[i + 1]}");
+                                Console.ResetColor();
+                                i += 1;
+                            }
+                            break;
+
                         case "move":
                             if (i + 3 < eventos.Length)
                             {
@@ -41,16 +109,6 @@ public class LogFormatter
                             {
                                 Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine($"💀 {eventos[i + 1]} ha sido debilitado.");
-                                Console.ResetColor();
-                                i += 1;
-                            }
-                            break;
-
-                        case "turn":
-                            if (i + 1 < eventos.Length)
-                            {
-                                Console.ForegroundColor = ConsoleColor.Green;
-                                Console.WriteLine($"\n🔄 Turno {eventos[i + 1]}");
                                 Console.ResetColor();
                                 i += 1;
                             }
@@ -92,5 +150,7 @@ public class LogFormatter
                     }
                 }
             }
+
+            Console.WriteLine("\n=== 🔚 Fin de la simulación ===");
         }
 }
